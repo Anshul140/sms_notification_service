@@ -19,12 +19,12 @@ import java.util.UUID;
 
 @Service
 public class SmsServiceProviderTwilio implements SmsServiceProvider {
-
+    private final SmsRepo smsRepo;
     @Autowired
-    private SmsRepo smsRepo;
+    public SmsServiceProviderTwilio(SmsRepo smsRepo) {
+        this.smsRepo = smsRepo;
 
-    @Autowired
-    private SmsMongoService smsMongoService;
+    }
 
     @Value("${TWILIO_ACCOUNT_SID}")
     String ACCOUNT_SID;
@@ -59,10 +59,12 @@ public class SmsServiceProviderTwilio implements SmsServiceProvider {
             System.out.println("Outgoing-number: "+OUTGOING_SMS_NUMBER);
             MessageCreator message = messageCreator(OUTGOING_SMS_NUMBER, request.getDestinationSmsNumber(),request.getSmsMessage());
             String response = message.create().getStatus().toString();
-            System.out.println(response);
+
 
             if(response.equals("queued")) {
-                return smsMongoService.save(request);
+                request.setId(UUID.randomUUID().toString().split("-")[0]);
+                SmsSendRequest newsms= smsRepo.save(request);
+                return newsms;
             } else {
                 System.out.println("Something went wrong!");
 //                return "fail";

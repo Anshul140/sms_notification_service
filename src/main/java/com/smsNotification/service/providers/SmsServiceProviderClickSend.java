@@ -13,20 +13,27 @@ import java.util.UUID;
 
 // dummy sms service provider for learning factory design pattern
 @Service
+
 public class SmsServiceProviderClickSend implements SmsServiceProvider {
-
+    private final SmsRepo smsRepo;
     @Autowired
-    private SmsRepo smsRepo;
+    public SmsServiceProviderClickSend(SmsRepo smsRepo) {
+        this.smsRepo = smsRepo;
 
-    @Autowired
-    private SmsMongoService smsMongoService;
+    }
+
 
     @Override
     public SmsSendRequest sendSMS(SmsSendRequest request, String fromNumber) {
-        //request.setId(UUID.randomUUID().toString().split("-")[0]);
-        //ystem.out.println("new generated id: "+request.getId());
-        return smsMongoService.save(request);
-//        return "success";
+        try {
+            request.setId(UUID.randomUUID().toString().split("-")[0]);
+            SmsSendRequest a=smsRepo.save(request);
+            System.out.println(a.getId());
+            return a;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
 }

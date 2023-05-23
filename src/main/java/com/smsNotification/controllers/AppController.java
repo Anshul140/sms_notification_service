@@ -25,6 +25,7 @@ public class AppController {
         log.info("processSMS Started.... SendRequest: "+request.toString());
         System.out.println("Method invoked...");
         SmsServiceProvider smsServiceProvider = SmsServiceProviderFactory.createSmsService(request.getServiceProviderName());
+        System.out.println(smsServiceProvider);
         return smsServiceProvider.sendSMS(request, "");
     }
 
