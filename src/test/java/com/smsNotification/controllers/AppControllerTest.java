@@ -2,7 +2,7 @@ package com.smsNotification.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smsNotification.models.SmsSendRequest;
-import com.smsNotification.service.SmsService;
+import com.smsNotification.service.providers.SmsServiceProviderTwilio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,12 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class AppControllerTest {
-
     private MockMvc mockMvc;
-
     @Mock
-    private SmsService smsService;
-
+    private SmsServiceProviderTwilio smsServiceTwilio;
     @InjectMocks
     private AppController appController;
 
@@ -36,8 +33,6 @@ class AppControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(appController).build();
     }
-
-
     @Test
     void processSMS() throws Exception{
 
@@ -46,7 +41,7 @@ class AppControllerTest {
         smsSendRequest.setSmsMessage("This is a test message.");
 
         // Mock the smsService.sendSMS method
-        when(smsService.sendSMS(any(SmsSendRequest.class), any(String.class))).thenReturn("queued");
+        when(smsServiceTwilio.sendSMS(any(SmsSendRequest.class), any(String.class))).thenReturn("queued");
 
         // Perform the POST request
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/sms")
