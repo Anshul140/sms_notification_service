@@ -15,5 +15,3 @@ public class SmsNotificationServiceApplication {
 		SpringApplication.run(SmsNotificationServiceApplication.class, args);
 	}
 }
-
-/*@EnableMongoRepositories(basePackages= {"com.smsNotification.repo","com.smsNotification.service.providers","com.smsNotification.service.implementations"})*/

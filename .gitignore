@@ -15,6 +15,7 @@ application.properties
 .sts4-cache
 
 ### IntelliJ IDEA ###
+.DS_Store
 .idea
 *.iws
 *.iml

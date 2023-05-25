@@ -21,7 +21,6 @@ public class SmsMongoServiceImpl implements SmsMongoService {
 
     @Override
     public SmsSendRequest getSMSById(String id) {
-        System.out.println("get by id invoked!...");
         return smsRepo.findById(id).get();
     }
 
@@ -32,12 +31,7 @@ public class SmsMongoServiceImpl implements SmsMongoService {
 
     @Override
     public SmsSendRequest save(SmsSendRequest request) {
-        SmsSendRequest newSms=new SmsSendRequest();
-        newSms.setSmsMessage(request.getSmsMessage());
-        newSms.setDestinationSmsNumber(request.getDestinationSmsNumber());
-        newSms.setId(UUID.randomUUID().toString().split("-")[0]);
-        newSms.setServiceProviderName(request.getServiceProviderName());
-        System.out.println(newSms.getId());
-        return smsRepo.save(newSms);
+        request.setId(UUID.randomUUID().toString().split("-")[0]);
+        return smsRepo.save(request);
     }
 }

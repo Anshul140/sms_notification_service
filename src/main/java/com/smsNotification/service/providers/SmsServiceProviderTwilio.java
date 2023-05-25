@@ -23,7 +23,6 @@ public class SmsServiceProviderTwilio implements SmsServiceProvider {
     @Autowired
     public SmsServiceProviderTwilio(SmsRepo smsRepo) {
         this.smsRepo = smsRepo;
-
     }
 
     @Value("${TWILIO_ACCOUNT_SID}")
@@ -32,8 +31,8 @@ public class SmsServiceProviderTwilio implements SmsServiceProvider {
     @Value("${TWILIO_AUTH_TOKEN}")
     String AUTH_TOKEN;
 
-//    @Value("${TWILIO_OUTGOING_SMS_NUMBER}")
-    String OUTGOING_SMS_NUMBER = "+12705801783";
+    @Value("${TWILIO_OUTGOING_SMS_NUMBER}")
+    String OUTGOING_SMS_NUMBER;
 
 
     @PostConstruct
@@ -56,18 +55,15 @@ public class SmsServiceProviderTwilio implements SmsServiceProvider {
                 OUTGOING_SMS_NUMBER = fromNumber;
             }
 
-            System.out.println("Outgoing-number: "+OUTGOING_SMS_NUMBER);
+            // System.out.println("Outgoing-number: "+OUTGOING_SMS_NUMBER);
             MessageCreator message = messageCreator(OUTGOING_SMS_NUMBER, request.getDestinationSmsNumber(),request.getSmsMessage());
             String response = message.create().getStatus().toString();
 
-
             if(response.equals("queued")) {
                 request.setId(UUID.randomUUID().toString().split("-")[0]);
-                SmsSendRequest newsms= smsRepo.save(request);
-                return newsms;
+                return smsRepo.save(request);
             } else {
                 System.out.println("Something went wrong!");
-//                return "fail";
                 return null;
             }
         } catch (Exception e) {

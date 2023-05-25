@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "messages")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class SmsSendRequest {
 
     @Id

@@ -1,6 +1,5 @@
 package com.smsNotification.service.factory;
 
-import com.smsNotification.models.SmsSendRequest;
 import com.smsNotification.service.SmsServiceProvider;
 import com.smsNotification.service.providers.SmsServiceProviderClickSend;
 import com.smsNotification.service.providers.SmsServiceProviderTwilio;
