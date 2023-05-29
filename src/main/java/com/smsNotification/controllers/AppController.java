@@ -21,7 +21,6 @@ public class AppController {
     @PostMapping("/sms")
     public SmsSendRequest processSMS(@RequestBody SmsSendRequest request) {
         SmsServiceProvider smsServiceProvider = SmsServiceProviderFactory.createSmsService(request.getServiceProviderName());
-        System.out.println(smsServiceProvider);
         return smsServiceProvider.sendSMS(request, "");
     }
 
